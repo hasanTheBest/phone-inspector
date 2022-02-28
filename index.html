@@ -15,9 +15,9 @@
     />
   </head>
   <body>
-    <div class="container">
+    <header class="container-fluid">
       <!-- 1. Header  -->
-      <header class="row">
+      <div class="row">
         <div class="col p-3 bg-light text-center">
           <h1>Phone Inspector</h1>
           <p>Find and hunt the necessary information about latest phone</p>
@@ -45,13 +45,25 @@
             </div>
           </form>
         </div>
-      </header>
+      </div>
+    </header>
 
-      <!-- 2. Main - display of phones -->
-      <main class="row row-cols row-cols-md-3 g-2 phone-display">
-        <div class="col"></div>
-      </main>
-    </div>
+    <!-- 2. Main - display of phones -->
+    <main class="container">
+      <!-- Show phone details -->
+      <div class="col phone-description"></div>
+
+      <div class="row row-cols row-cols-md-3 g-2 phones-display">
+        <div class="col phone"></div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="p-3 bg-light">
+      &copy;
+      <a href="https://linkedin.com/m-hasan-ru" target="_blank">Mahmud</a>, 2022
+      | All rights reserved
+    </footer>
     <script src="js/index.js"></script>
   </body>
 </html>
