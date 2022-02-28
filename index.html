@@ -29,10 +29,12 @@
             <div class="input-group justify-content-center">
               <div class="form-floating w-50">
                 <input
-                  type="email"
+                  type="text"
                   class="form-control phone-search-input"
                   id="floatingInputGrid"
                   placeholder="iphone.."
+                  autofocus
+                  required
                 />
                 <label for="floatingInputGrid">Phone Name</label>
               </div>
@@ -52,7 +54,7 @@
     <!-- 2. Main - display of phones -->
     <main class="container">
       <!-- Show phone details -->
-      <div class="col phone-description"></div>
+      <div class="col phone-details"></div>
 
       <div class="row row-cols row-cols-md-3 g-2 phones-display">
         <div class="col phone"></div>
