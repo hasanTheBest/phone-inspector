@@ -141,15 +141,28 @@ const setDOMValue = (selector, content, method = "innerHTML") => {
 };
 
 // show main features
-// const features = () => {
-//   const html = ""
-
-// }
+const ShowFeatures = (features, title) => {
+  let html = `<div class="col">
+              <div class="card">
+              <h4 class="card-title text-center my-3">${title}</h4>
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">`;
+  for (f in features) {
+    html += `<li class="list-group-item"><b class="text-capitalize">${f}</b>: ${
+      Array.isArray(features[f]) ? features[f].join(", ") : features[f]
+    }</li>`;
+  }
+  html += `
+                  </ul>
+              </div>
+            </div>
+          </div>
+`;
+  return html;
+};
 
 // Display Phones
 const displayPhones = (phones, node) => {
-  // const display = getDOMValue();
-  // console.log(phones);
   if (Array.isArray(phones)) {
     const phoneItems = phones.map(({ brand, phone_name, slug, image }) => {
       return `
@@ -171,45 +184,31 @@ const displayPhones = (phones, node) => {
       ""
     )}`;
   } else {
-    const features = Object.entries(phones);
     const { mainFeatures, name, brand, image, others } = phones;
-    const { storage, displaySize, chipSet, memory } = mainFeatures;
 
     const phoneCard = `
       <div class="col col-md-12">
-          Phone Details
+          <h2 class="text-center my-5">Phone Details</h2>
         </div>
         <div class="col">
           <div class="card">
             <div class="card-body">
             <img src="${image}" class="mb-4" alt="${name}">
                 <h6 class="text-secondary mb-0">${brand}</h6>
-                <h5 class="card-title text-primary mb-0">${phone_name}</h5>
-                <small class="card-title text-primary mb-3">${phones?.releaseDate}</small>
+                <h5 class="card-title text-primary mb-0">${name}</h5>
+                <small class="card-title text-primary mb-3">${
+                  phones?.releaseDate
+                }</small>
               </div>
             </div>
           </div>
         </div>
 
-
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">Storage: ${storage}</li>
-                <li class="list-group-item">Display Size: ${displaySize}</li>
-                <li class="list-group-item">Chip Set: ${chipSet}</li>
-                <li class="list-group-item">Memory: ${memory}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
+        ${ShowFeatures(mainFeatures, "Main Features")}
+        ${ShowFeatures(others, "Other Features")}
+              
     `;
-    // console.log(features);
-    // node.innerHTML = `<h2 class="col-md-12 pt-5 text-center">Phones</h2>${phoneItems.join(
-    //   ""
-    // )}`;
+    node.innerHTML = phoneCard;
   }
 };
 
