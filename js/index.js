@@ -107,13 +107,28 @@ const setDOMValue = (selector, content, method = "innerHTML") => {
 };
 
 // Display Phones
-const displayPhones = (phones) => {
-  const display = getDOMValue(".phones-display");
+const displayPhones = (phones, node) => {
+  // const display = getDOMValue();
+  // console.log(phones);
 
-  // const phoneHTML = phones.map((phone) => {
-  const phoneHTML = apiRes.data.map((phone) => {
-    console.log("phone");
+  const phoneItems = phones.map(({ brand, phone_name, slug, image }) => {
+    return `
+    <div class="col phone">
+      <div class="card">
+        <div class="card-body">
+        <img src="${image}" class="mb-4" alt="${phone_name}">
+            <h6 class="text-secondary mb-0">${brand}</h6>
+            <h5 class="card-title text-primary mb-3">${phone_name}</h5>
+            <button slug="${slug}" class="btn btn-success inspect-button">Inspect</button>
+          </div>
+        </div>
+      </div>
+    `;
   });
+
+  node.innerHTML = `<h2 class="col-md-12 pt-5 text-center">Phones</h2>${phoneItems.join(
+    ""
+  )}`;
 };
 
 // Load phones
@@ -135,10 +150,12 @@ const loadPhones = async (slug, term = "phones?search=") => {
 document.querySelector(".search-form").addEventListener("submit", (e) => {
   // prevent default submit
   e.preventDefault();
+  e.stopImmediatePropagation();
 
   // search input
   const inputSearch = getDOMValue(".phone-search-input", "value");
 
   // load data
   // loadPhones(inputSearch);
+  displayPhones(apiRes.data, document.querySelector(".phones-display"));
 });
