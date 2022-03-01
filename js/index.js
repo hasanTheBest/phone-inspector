@@ -1,3 +1,24 @@
+// Spinner
+const spinners = `
+  <div class="col-12 col-md-12 spinners py-5 px-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-info" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="spinner-border text-warning" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+`;
+
 // URL
 const URL = "https://openapi.programming-hero.com/api/";
 
@@ -93,33 +114,37 @@ const displayPhones = (phones, node, err = false) => {
 // Load phones
 const loadPhones = async (slug, term = "phones?search=") => {
   // show error
-  const node =
-    term === "phones?search="
-      ? document.querySelector(".phones-display")
-      : document.querySelector(".phone-details");
+  let node;
+  if (term === "phones?search=") {
+    node = document.querySelector(".phones-display");
+  } else {
+    node = document.querySelector(".phone-details");
+    // show spinners
+    setDOMValue(".phone-details", spinners);
+  }
 
-  try {
-    const response = await fetch(URL + term + slug.toLowerCase());
-    const data = await response.json();
+  if (term !== "")
+    try {
+      const response = await fetch(URL + term + slug.toLowerCase());
+      const data = await response.json();
 
-    // Display Phones
-
-    if (data.status) {
-      displayPhones(data.data, node);
-    } else {
+      // Display Phones
+      if (data.status) {
+        displayPhones(data.data, node);
+      } else {
+        displayPhones(
+          "<h1 class='col-md-12 text-center text-danger py-5 px-3'>Not Found</h1>",
+          node,
+          true
+        );
+      }
+    } catch (err) {
       displayPhones(
-        "<h1 class='col-md-12 text-center text-danger py-5 px-3'>Not Found</h1>",
+        `<h1 class='col-md-12 text-center text-danger py-5 px-3'>${err.message}</h1>`,
         node,
         true
       );
     }
-  } catch (err) {
-    displayPhones(
-      `<h1 class='col-md-12 text-center text-danger py-5 px-3'>${err.message}</h1>`,
-      node,
-      true
-    );
-  }
 };
 
 // Add submit event listener to form
@@ -134,5 +159,5 @@ document.querySelector(".search-form").addEventListener("submit", (e) => {
   loadPhones(inputSearch);
 
   setDOMValue(".phone-details", "");
-  setDOMValue(".phones-display", "");
+  setDOMValue(".phones-display", spinners);
 });
